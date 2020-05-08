@@ -37,26 +37,26 @@ class MelonType(object):
 def make_melon_types():
     """Returns a list of current melon types."""
 
-    all_melon_types = []
+    melon_types = []
 
     musk = MelonType('musk','Muskmelon', '1998', 'green', True, True)
     musk.add_pairing('mint')
-    all_melon_types.append(musk)
+    melon_types.append(musk)
 
     cas = MelonType('cas', 'Casaba',  '2003', 'orange', False, False)
     cas.add_pairing('mint')
     cas.add_pairing('strawberries')
-    all_melon_types.append(cas)
+    melon_types.append(cas)
 
     cren = MelonType('cren', 'Crenshaw',  '1996', 'green', False, False)
     cren.add_pairing('proscuitto')
-    all_melon_types.append(cren)
+    melon_types.append(cren)
 
     yw = MelonType('yw', 'Yellow Watermelon',  '2013', 'yellow', False, True)
     yw.add_pairing('ice cream')
-    all_melon_types.append(yw)
+    melon_types.append(yw)
 
-    return all_melon_types
+    return melon_types
     
 
 def print_pairing_info(melon_types):
@@ -147,3 +147,38 @@ def get_sellability_report(melons):
         else:
             print(f'Harvested by {harvested_by} from Field {harvest_field} (DO NOT SELL)')    
         
+#################
+# Further Study #
+#################
+
+def process_harvest_log(file_path):
+    """ Open and loop a txt file, Create melon object for each line"""
+
+    harvested = []
+    
+    melon_codes = make_melon_type_lookup(melon_types)
+
+    harvest_log = open(file_path)
+
+    # Break open and parse the data
+    for line in harvest_log:
+        info = line.rstrip().split()
+      
+        m_type = make_melon_type_lookup(info[5])
+        shape = info[1]
+        color_rating = info[3]
+        harvest_field = info[11]
+        harvested_by = info[8]
+
+        # Create Melon instance
+        mel = Melon(m_type, shape, color_rating, harvest_field, harvested_by)
+        harvested.append(mel)
+
+        print(m_type)
+
+    #print(mel)
+
+
+make_melon_types()
+print(process_harvest_log(sys.argv[1]))
+
